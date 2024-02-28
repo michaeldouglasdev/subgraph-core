@@ -1,0 +1,42 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable", "@external", "@requires"])
+
+type Query {
+  test: Boolean
+}
+
+interface MutationResponse {
+  code: Int!
+  message: String!
+  success: Boolean!
+}
+
+type Product @key(fields: "sku") {
+  sku: String!
+  #name: String!
+  price: Price! @external
+  offers: [Offer] @external
+  bestPrice: Price! @requires(fields: "offers { price { value} } price { value }")
+}
+
+type Cart @key(fields: "id") {
+  id: ID!
+  items: [CartItem]! @external
+  totalPrice: Price @requires(fields: "items {product { price { value }} qty}")
+}
+
+type CartItem @key(fields: "id") {
+  id: ID!
+  product: Product! @external
+  qty: Int! @external
+  totalPrice: Price! @requires(fields: "product { price { value } offers { price { value }}} qty")
+}
+
+type Price @shareable {
+  value: Int!
+  label: String!
+}
+
+type Offer @key(fields: "id", resolvable: false) {
+  id: ID!
+  price: Price! @shareable
+}
