@@ -7,7 +7,7 @@
   "scripts": {
     "codegen": "graphql-codegen",
     "start": "tsx watch server.ts",
-    "publish-schema": "rover subgraph publish md-federation@current --name products --schema ./src/schema.graphql --routing-url https://subgraph-core-6a15661945b2.herokuapp.com/",
+    "publish-schema": "rover subgraph publish md-federation@current --name core --schema ./src/schema.graphql --routing-url https://subgraph-core-6a15661945b2.herokuapp.com/",
     "deploy": "git add .; git commit -m 'updating'; git push heroku main; yarn publish-schema"
   },
   "devDependencies": {
