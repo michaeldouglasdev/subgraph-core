@@ -10,7 +10,6 @@ export const resolvers: Resolvers = {
   },
   Cart: {
     totalPrice: (parent) => {
-      console.log('totalPrice', parent);
       const items = parent.items as CartItemModel[]
 
       const sum = items.reduce((acc , obj) => acc + (obj.product.price.value * obj.qty), 0);
@@ -34,9 +33,6 @@ export const resolvers: Resolvers = {
   Product: {
     bestPrice: ({ sku, offers, price}) => {
       const offersValues = offers.map(offer => offer.price.value);
-      console.log('oofers', offers)
-      console.log('proice', price);
-      console.log('==')
       const offerMinValue = Math.min(...offersValues);
 
       const minValue = price.value < offerMinValue ? price.value : offerMinValue
